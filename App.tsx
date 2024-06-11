@@ -1,118 +1,48 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import MessageCallCard from './src/components/MessageCallCard'
+import TosatMessageCard from './src/components/TosatMessageCard'
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const App = () => {
+  const [show, setShow] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const showMessage = (title: string) => {
+    setMessage(title);
+    setShow(true);
+    setTimeout(() => {
+      setShow(false);
+    }, 6000);
+  }
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+    <SafeAreaView  >
+      <View style={styles.container}>
+        <MessageCallCard title='CAUTION' color="#eed202" titleColor='white' onPress={() => showMessage('CAUTION')} />
+        <MessageCallCard title='SUCCESS' color="#38b000" titleColor='white' onPress={() => showMessage('SUCCESS')} />
+        <MessageCallCard title='DANGER' color="#e63946" titleColor='white' onPress={() => showMessage('DANGER')} />
+        <MessageCallCard title='INFO' color="#00b4d8" titleColor='white' onPress={() => showMessage('INFO')} />
+      </View>
+      {show && (
+        <View style={{alignItems:'center' , justifyContent:'center'}}>
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+          <TosatMessageCard messageTitle={message}  />
+        </View>)
+      }
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
+
+export default App
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop:200,
+  }
+})
 
-export default App;
+
